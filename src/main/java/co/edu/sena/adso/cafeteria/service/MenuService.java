@@ -21,7 +21,7 @@ public class MenuService {
 
     //Metodo para lista todos los platos
     public List<Plato> todos() {
-        return repo.findByOrdenByNombreAsc();
+        return repo.findByOrderByNombreAsc();
     }
 
     //Metodo para filtrar por tipo
@@ -33,6 +33,18 @@ public class MenuService {
     public Plato buscar(Long id) {
         return repo.findById(id)
                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el plato" + id));
+    }
+
+    public Plato guardar(Plato plato) {
+        plato.setTipo(plato.getTipo().toLowerCase());
+        return repo.save(plato);
+    }
+
+    public void eliminar(Long id) {
+        if (!repo.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el plato " + id);
+        }
+        repo.deleteById(id);
     }
 
 }
