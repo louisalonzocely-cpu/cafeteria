@@ -8,36 +8,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import co.edu.sena.adso.cafeteria.model.Plato;
+import co.edu.sena.adso.cafeteria.repository.PlatoRepository;
 
 @Service
 public class MenuService {
+
+    private final PlatoRepository repo;
     
-    private final List<Plato> platos = List.of(
-        new Plato(1L, "Arepa de huevo", "desayuno", 4000),
-        new Plato(2L, "Arroz con pollo", "almuerzo", 12000),
-        new Plato(3L, "Mojarra frita con patacon", "almuerzo", 18000),
-        new Plato(4L, "Jugo de corozo", "bebida", 3000),
-        new Plato(5L, "Limonada de coco", "bebida", 5000)
-    );
+    public MenuService(PlatoRepository repo) {
+        this.repo = repo;
+    }
 
     //Metodo para lista todos los platos
     public List<Plato> todos() {
-        return platos;
+        return repo.findByOrdenByNombreAsc();
     }
 
     //Metodo para filtrar por tipo
     public List<Plato> porTipo(String tipo) {
-        return platos.stream()
-                .filter(p -> p.tipo().equalsIgnoreCase(tipo))
-                .toList();
+        return repo.findByTipoIgnoreCaseOrderByNombreAsc(tipo);
     }
 
     //Metodo para buscar
     public Plato buscar(Long id) {
-        return platos.stream()
-                .filter(p -> p.id().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el plato" + id));
+        return repo.findById(id)
+               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe el plato" + id));
     }
 
 }
