@@ -34,4 +34,10 @@ public class MenuController {
         return "plato";
     }
 
+    @GetMapping("/acerca")
+    public String verAcerca(Model model) {
+        model.addAttribute("titulo", "Acerca de");
+        return "acerca";
+    }
+
 }

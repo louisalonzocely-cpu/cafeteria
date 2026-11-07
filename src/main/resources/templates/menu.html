@@ -8,6 +8,11 @@
 <body>
   <h1 th:text="${titulo}">Título</h1>
 
+  <div class="acciones">
+      <a class="boton" th:href="@{/contacto}">Contacto</a>
+      <a class="boton secundario" href="#acerca">Acerca de</a>
+  </div>
+
   <!-- Enlaces de filtro: @{/menu(tipo='bebida')} construye /menu?tipo=bebida -->
   <p>
     <a th:href="@{/menu}">Todos</a> ·
@@ -23,5 +28,15 @@
     </li>
   </ul>
   <p th:if="${#lists.isEmpty(platos)}">No hay platos de ese tipo.</p>
+
+  <div id="acerca" class="modal-fondo modal-target">
+    <div class="modal">
+      <h2>Acerca de</h2>
+      <p>Nombre: Luis Alonso Cely</p>
+      <p>Ficha: 3230489</p>
+      <p>Fecha: 2023-11-07</p>
+      <a class="boton" href="#">Cerrar</a>
+    </div>
+  </div>
 </body>
 </html>
